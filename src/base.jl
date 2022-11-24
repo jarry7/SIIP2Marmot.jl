@@ -358,16 +358,24 @@ function export_marmot_inputs(results::PSI.ProblemResults, save_dir, export_part
         export_system_metadata(sys, dirname(save_dir))
     else
         export_system_metadata(sys, save_dir)
+        @info "Exported metadata"
     end
     export_generation(variables, aux_variables, save_dir; kwargs...)
+    @info "Exported generation"
     export_generation_timeseries(parameters, save_dir; kwargs...)
+    @info "Exported generation timeseries"
     export_reserve_contribution(variables, save_dir; kwargs...)
+    @info "Exported reserve contribution"
     export_commitment(variables, save_dir, ; kwargs...)
+    @info "Exported commitment"
 
     export_power_flow(system, variables, expressions, save_dir; kwargs...)
+    @info "Exported powerflow"
 
     export_net_demand(results, parameters, save_dir; kwargs...)
+    @info "Exported net demand"
     export_installed_capacity(system, save_dir; kwargs...)
+    @info "Exported installed capacity"
 end
 
 
@@ -381,22 +389,30 @@ function export_marmot_inputs(results::PSI.SimulationProblemResults, save_dir; k
     duals = PSI.read_realized_duals(results)
     expressions = PSI.read_realized_expressions(results)
 
-    export_system_metadata(system, save_dir)
     export_generation(variables, aux_variables, save_dir; kwargs...)
+    @info "Exported generation"
     export_generation_timeseries(parameters, save_dir; kwargs...)
+    @info "Exported generation timeseries"
     export_reserve_contribution(variables, save_dir; kwargs...)
-    export_commitment(variables, save_dir; kwargs...)
+    @info "Exported reserve contribution"
+    export_commitment(variables, save_dir, ; kwargs...)
+    @info "Exported commitment"
 
     export_power_flow(system, variables, expressions, save_dir; kwargs...)
+    @info "Exported powerflow"
 
-    export_net_demand(results, variables, parameters, save_dir; kwargs...)
+    export_net_demand(results, parameters, save_dir; kwargs...)
+    @info "Exported net demand"
     export_installed_capacity(system, save_dir; kwargs...)
+    @info "Exported installed capacity"
 end
 
 function export_marmot_inputs(system::PSY.System, save_dir; kwargs...)
     preset_system_unit_settings!(system)
     export_installed_capacity(system, save_dir; kwargs...)
+    @info "Exported installed capacity"
     export_system_metadata(system, save_dir)
+    @info "Exported metadata"
 end
 
 function export_custom_interface_flow(
